@@ -29,7 +29,22 @@ defmodule Herder.Order do
     GenServer.call(order, :get_state)
   end
 
+  def fill(order, quantity) do
+    GenServer.cast(order, {:fill, quantity})
+  end
+
+  def is_complete(order) do
+    GenServer.call(order, :is_complete)
+  end
+
   def handle_call(:get_state, _from, state) do
     {:reply, state, state}
+  end
+  def handle_call(:is_complete, _from, state) do
+    {:reply, state.leaves <= 0, state}
+  end
+
+  def handle_cast({:fill, quantity}, state) do
+    {:noreply, %Herder.Order.State{state | leaves: state.leaves - quantity}}
   end
 end

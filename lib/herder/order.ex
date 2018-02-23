@@ -12,7 +12,7 @@ defmodule Herder.Order do
 
   def init(id: id, side: side, size: size, rate: rate, term: term, party: party) do
     {
-      :ok, 
+      :ok,
       %Herder.Order.State{
         id: id,
         side: side,
@@ -23,7 +23,7 @@ defmodule Herder.Order do
         party: party
       }
     }
-  end 
+  end
 
   def get_state(order) do
     GenServer.call(order, :get_state)
